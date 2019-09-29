@@ -18,16 +18,16 @@ _user_agents = [
 ]
 
 class InstagramScraper:
- 
+
     def __init__(self, user_agents=None, proxy=None):
         self.user_agents = user_agents
         self.proxy = proxy
- 
+
     def __random_agent(self):
         if self.user_agents and isinstance(self.user_agents, list):
             return choice(self.user_agents)
         return choice(_user_agents)
- 
+
     def __request_url(self, url):
         try:
             response = requests.get(url, headers={'User-Agent': self.__random_agent()}, proxies={'http': self.proxy,
@@ -39,7 +39,7 @@ class InstagramScraper:
             raise requests.RequestException
         else:
             return response.text
- 
+
     @staticmethod
     def extract_json_data(html):
         soup = BeautifulSoup(html, 'html.parser')
@@ -47,7 +47,7 @@ class InstagramScraper:
         script_tag = body.find('script')
         raw_string = script_tag.text.strip().replace('window._sharedData =', '').replace(';', '')
         return json.loads(raw_string)
- 
+
     def profile_page_metrics(self, profile_url):
         results = {}
         try:
@@ -67,7 +67,7 @@ class InstagramScraper:
                     elif value:
                         results[key] = value
         return results
- 
+
     def profile_page_recent_posts_time(self, profile):
         profile_url = 'https://www.deskgram.cc/{}/'.format(profile)
         results = []
@@ -92,10 +92,6 @@ def main():
             username_list.append(a)
     for x in username_list:
         obj.profile_page_recent_posts_time(x)
-
-    # tag_list = ['virat']
-    # for x in tag_list:
-    #     obj.tag_page_media(x)
 
 if __name__ == '__main__':
     main()
