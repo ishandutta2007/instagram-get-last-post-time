@@ -77,23 +77,14 @@ class InstagramScraper:
         
         except:
             print("Trouble finding info for " + profile_url)
-
 def main():
     obj = InstagramScraper()
+    dropbox_dir = "/Users/ishandutta2007/Dropbox"
+    arr = os.listdir(dropbox_dir)
     username_list = []
-    print("Enter/Paste elements, press[Enter], then press Ctrl-D to save it and run program.")
-
-    while(True):
-        
-        try:
-            user = input()
-          
-        except EOFError:
-            break
-        
-        for x in user.split():
-            username_list.append(x)
-
+    for a in arr:
+        if "zzz" not in a and "yyy" not in a and "DS_Store" not in a:
+            username_list.append(a)
     for x in username_list:
         obj.profile_page_recent_posts_time(x)
 
